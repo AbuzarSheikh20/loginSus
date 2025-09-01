@@ -1,7 +1,7 @@
 import { useState } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000"); // later replace with backend URL
+const socket = io("https://loginsus.onrender.com");
 
 export default function App() {
   const [email, setEmail] = useState("");
