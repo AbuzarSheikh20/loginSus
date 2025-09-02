@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const options = [
-    { title: "🎮 Play Fun Game", desc: "Relax with safe mini games." },
+    { title: "🌸 Recite Qura'an", desc: "Relax your mind with purity." },
     { title: "🎥 Inspiring Videos", desc: "Watch positivity & motivation." },
     { title: "🌸 Beautiful Photos", desc: "Feel calm with a lovely gallery." },
     { title: "✨ Daily Quotes", desc: "Uplifting words for your day." },
