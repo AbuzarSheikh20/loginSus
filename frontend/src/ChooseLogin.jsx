@@ -14,7 +14,7 @@ const ChooseLogin = () => {
     { name: "Google", icon: <FaGoogle className="text-red-500 text-4xl" /> },
     { name: "Facebook", icon: <FaFacebook className="text-blue-600 text-4xl" /> },
     { name: "Instagram", icon: <FaInstagram className="text-pink-500 text-4xl" /> },
-    { name: "Phone", icon: <FaPhone className="text-green-500 text-4xl" /> },
+    { name: "Snapchat", icon: <FaSnapchat className="text-green-500 text-4xl" /> },
   ];
 
   const handleClick = (name) => {
